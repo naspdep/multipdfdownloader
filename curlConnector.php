@@ -15,9 +15,11 @@ class curlConnector {
     private $curl;
     
     private $curlopts = array (
-        CURLOPT_TRANSFER => 1,
+        //CURLOPT_TRANSFER => 1,
         CURLOPT_CONNECTTIMEOUT => 5,
-        CURLOPT_POST =>  1
+        CURLOPT_POST =>  1,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => false
     );
     
     public function __construct() {
