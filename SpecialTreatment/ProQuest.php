@@ -17,19 +17,25 @@ class ProQuest implements SpecialTreatment{
     
     public function getHTML($data) {
         $this->data = $data;
-        $javaScriptParser = new JavaScriptParser();
-        $javaScriptParser->parseData($data);
-        $javaScriptParser->includeJs();
-        
+        $this->js();
         //:TODO: do some stuffs
         return $newData;
     }
     
     private function sendAccept() {
         //:TODO: send an accept request
+        $url = '';
+        
+        //:TODO: get url
+        $curlConnector = new curlConnector();
+        $curlConnector->connect($url);
     }
     
     private function js () {
         //:TODO: deal with all the js bs
+        
+        $javaScriptParser = new JavaScriptParser();
+        $javaScriptParser->parseData($this->data);
+        $javaScriptParser->includeJs();
     }
 }

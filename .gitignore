@@ -1,1 +1,4 @@
 /nbproject
+/pdf/tmp/*
+/pdf/*.pdf
+/tmp/*

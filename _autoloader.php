@@ -2,6 +2,8 @@
 /**
  * Loads all required classes. Just in case I need to explain that.
  */
+
+require_once 'Config.php';
 foreach (scandir('Exceptions') as $file) {
     if (preg_match('/\.php$/', $file)) {
         require_once "Exceptions/$file";

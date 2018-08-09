@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jennifer Talks
- * @version 0.0.3
+ * @version 0.1.0
  * 
  * index file
  */
@@ -24,7 +24,6 @@ if (filter_input(INPUT_GET, 'url')) {
     $curlConnector = new curlConnector();
     $pdfDownloader = new PdfDownloader();
     $pdfCreator = new PdfCreator();
-    $javaScriptParser = new JavaScriptParser();
     
     $data = $curlConnector->connect(filter_input(INPUT_GET, 'url'));
     
@@ -35,10 +34,9 @@ if (filter_input(INPUT_GET, 'url')) {
             $data = getHTML($data, new ProQuest());
             break;
     }
-    /*
-    $iban = $pdfDownloader->downloadTmps($data);
+    
+    $iban = $pdfDownloader->downloadTmps($data, $match[0]);
     $pdfCreator->putEmTogether($iban);
-     */
 }
 
 require_once 'html/header.html';

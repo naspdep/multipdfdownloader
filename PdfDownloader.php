@@ -12,14 +12,19 @@ class PdfDownloader {
      * @param string $data
      * @param string $baseurl
      */
-    private function getDownloadLinks ($data, $baseurl = 'localhost') {
+    private function getDownloadLinks ($data, $baseurl) {
         
         //parse for <a
-        foreach (preg_match_all('/<a .* href=[\'"]([\w\/_\-])*\.pdf .*>/', $data) as $link) {
-            if (preg_match('/<a .* href=[\'"]\//', $link)) {
-                $this->downloadLinks[] = $baseurl . substr(preg_match('/href[\'"].*[\'"]/', $link), 4);
+        $links = array ();
+        //preg_match_all('/<a.*href=[\'"].*\.pdf .*>/', $data, $links);
+        
+        preg_match_all('/<a.*href=[\'"](.*\.pdf)[\'"].*/', $data, $links);
+        
+        foreach ($links[1] as $link) {
+            if ($link[0] === '/') {
+                $this->downloadLinks[] = $baseurl . $link;
             } else {
-                $this->downloadLinks[] = $link . substr(preg_match('/href[\'"].*[\'"]/', $link), 4);
+                $this->downloadLinks[] = $link;
             }
         }
     }
@@ -30,18 +35,25 @@ class PdfDownloader {
      * @param string $data
      * @return string potential name for the file, should be IBAN
      */
-    public function downloadTmps($data) {
-        $this->getDownloadLinks($data);
+    public function downloadTmps($data,$baseurl) {
+        
+        $this->getDownloadLinks($data,$baseurl);
+        
         $iban = '';
         
         foreach ($this->downloadLinks as $num => $downloadlink) {
+            echo '<br />';
             if (preg_match('/\.pdf$/', $downloadlink)) {
-                $iban ? : $iban = preg_match('/[\a-fA-F]{4}\-[\a-fA-F]\-[\a-fA-F]{4}\-[\a-fA-F]{4}\-[\a-fA-F]\-/', $downloadlink);
-                file_put_contents(self::TMP_FILEPATH . "$num.pdf", file_get_contents($downloadlink));
+                if (!$iban) {
+                    preg_match('/[A-Fa-f\d]{4}\-[A-Fa-f\d](\-[A-Fa-f\d]{4}){2}\-[A-Fa-f\d]/', $downloadlink, $iban);
+                    $iban = $iban[0];
+                }
+                file_put_contents(self::TMP_FILEPATH . "/$num.pdf", file_get_contents($downloadlink));
             } else {
                 //what to do, what to do... idk yet
             }
         }
-        return ($iban != '' ? $iban : 'please_name_this_file');
+        
+        return ($iban ? $iban : 'please_name_this_file');
     }
 }
