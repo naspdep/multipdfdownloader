@@ -1,16 +1,15 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * For sites that do something like use javascript or some crap like that
  */
 
-/**
- * Description of SpecialTreatment
- *
- * @author Clara
- */
 interface SpecialTreatment {
+    /**
+     * Needs to generate HTML that can be used by the PdfDownloader
+     * 
+     * @param type $data
+     * @return string new data
+     */
     public function getHTML($data);
 }

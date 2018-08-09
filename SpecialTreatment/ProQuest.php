@@ -17,6 +17,11 @@ class ProQuest implements SpecialTreatment{
     
     public function getHTML($data) {
         $this->data = $data;
+        $javaScriptParser = new JavaScriptParser();
+        $javaScriptParser->parseData($data);
+        $javaScriptParser->includeJs();
+        
+        //:TODO: do some stuffs
         return $newData;
     }
     

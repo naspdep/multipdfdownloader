@@ -1,16 +1,9 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Manages the curl requests
  */
 
-/**
- * Description of curlConnector
- *
- * @author Clara
- */
 class curlConnector {
     private $curl;
     
@@ -22,15 +15,34 @@ class curlConnector {
         CURLOPT_POST => false
     );
     
+    /**
+     * Constructor; initialises curl
+     */
     public function __construct() {
         $this->curl = curl_init();
     }
     
+    /**
+     * Sends a curl requests and returns an HTML string
+     * 
+     * @param string $url
+     * @return string
+     */
     public function connect($url) {
         curl_setopt_array($this->curl, $this->curlopts);
         curl_setopt($this->curl, CURLOPT_URL, $url);
         $data = curl_exec($this->curl);
         curl_close($this->curl);
         return $data;
+    }
+    
+    /**
+     * Sets given curl option
+     * 
+     * @param int $option
+     * @param mixed $value
+     */
+    public function setOpt($option, $value) {
+        curl_setopt($this->curl, $option, $value);
     }
 }

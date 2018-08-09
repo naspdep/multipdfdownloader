@@ -1,31 +1,31 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- * Description of PdfCreator
- *
- * @author Clara
- */
 class PdfCreator {
     const FILEPATH = 'pdf/';
     
-    public function putEmTogether ($iban){
+    /**
+     * Attempts to take the content of all pdf files in tmp folder and put them
+     * into one file
+     * 
+     * @param string $filename
+     */
+    public function putEmTogether ($filename){
         $files = scandir(self::FILEPATH . 'tmp');
         $file_content = '';
         
+        //Gather all the content
         foreach ($files as $file) {
             //I might have to remove beginning of file
-            $file_content .= file_get_contents($file);
+            if (preg_match('/\.pdf$/', $file)) {
+                $file_content .= file_get_contents($file);
+            }
         }
         
-        if(!file_put_contents($file_content, self::FILEPATH . "$iban.pdf")) {
+        //Put the content down
+        if(!file_put_contents($file_content, self::FILEPATH . "$filename.pdf")) {
             printf ("Failed to put em together. The files will remain in the " . self::FILEPATH . "tmp folder.");
         } else {
+            //delete tmp folder
             foreach ($files as $file) {
                 unlink (self::FILEPATH . "tmp/$file");
             }
