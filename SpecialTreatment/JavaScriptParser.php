@@ -13,6 +13,12 @@
  */
 class JavaScriptParser {
     
+    private $logger;
+    
+    public function __construct() {
+        $this->logger = new Logger();
+    }
+    
     /**
      * parse HTML for .js links and <script type='text/javascript' tags and write 
      * them into a file

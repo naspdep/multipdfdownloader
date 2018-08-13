@@ -20,12 +20,15 @@ function getHTML ($data, SpecialTreatment $specialTreatment) {
 
 require_once '_autoloader.php';
 
+$logger = new Logger();
+
 if (filter_input(INPUT_GET, 'url')) {
     $curlConnector = new curlConnector();
     $pdfDownloader = new PdfDownloader();
     $pdfCreator = new PdfCreator();
     
     $data = $curlConnector->connect(filter_input(INPUT_GET, 'url'));
+    $logger->debug($data);
     
     //Figure out which SpecialTreatment class to use
     preg_match('/^.*\.(com)|(de)/', filter_input(INPUT_GET, 'url'), $match);
@@ -33,10 +36,14 @@ if (filter_input(INPUT_GET, 'url')) {
         case 'https://ebookcentral.proquest.com' :
             $data = getHTML($data, new ProQuest());
             break;
+        default : 
+            $logger->notice("Unknown server " . $match[0]);
+            break;
     }
+    $logger->debug($data);
     
-    $iban = $pdfDownloader->downloadTmps($data, $match[0]);
-    $pdfCreator->putEmTogether($iban);
+    $isbn = $pdfDownloader->downloadTmps($data, $match[0]);
+    $pdfCreator->putEmTogether($isbn);
 }
 
 require_once 'html/header.html';

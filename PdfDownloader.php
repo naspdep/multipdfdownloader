@@ -4,6 +4,11 @@ class PdfDownloader {
     const TMP_FILEPATH = 'pdf/tmp';
     
     private $downloadLinks = array();
+    private $logger;
+    
+    public function __construct() {
+        $this->logger = new Logger();
+    }
     
     /**
      * Parse HTML for any pdf download link
@@ -33,20 +38,20 @@ class PdfDownloader {
      * Download all the found links into the tmp folder
      * 
      * @param string $data
-     * @return string potential name for the file, should be IBAN
+     * @return string potential name for the file, should be ISBN
      */
     public function downloadTmps($data,$baseurl) {
         
         $this->getDownloadLinks($data,$baseurl);
         
-        $iban = '';
+        $isbn = '';
         
         foreach ($this->downloadLinks as $num => $downloadlink) {
             echo '<br />';
             if (preg_match('/\.pdf$/', $downloadlink)) {
-                if (!$iban) {
-                    preg_match('/[A-Fa-f\d]{4}\-[A-Fa-f\d](\-[A-Fa-f\d]{4}){2}\-[A-Fa-f\d]/', $downloadlink, $iban);
-                    $iban = $iban[0];
+                if (!$isbn) {
+                    preg_match('/[A-Fa-f\d]{4}\-[A-Fa-f\d](\-[A-Fa-f\d]{4}){2}\-[A-Fa-f\d]/', $downloadlink, $isbn);
+                    $isbn = $isbn[0];
                 }
                 file_put_contents(self::TMP_FILEPATH . "/$num.pdf", file_get_contents($downloadlink));
             } else {
@@ -54,6 +59,6 @@ class PdfDownloader {
             }
         }
         
-        return ($iban ? $iban : 'please_name_this_file');
+        return ($isbn ? $isbn : 'please_name_this_file');
     }
 }

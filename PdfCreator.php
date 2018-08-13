@@ -3,7 +3,13 @@
 class PdfCreator {
     const FILEPATH = 'pdf/';
     
-    /**
+    private $logger;
+    
+    public function __construct() {
+        $this->logger = new Logger();
+    }
+
+        /**
      * Attempts to take the content of all pdf files in tmp folder and put them
      * into one file
      * 
@@ -28,12 +34,15 @@ class PdfCreator {
         
         if ($cmd !== 'pdftk') { //Tests if there are any input files
             $cmd .= ' output ' . self::FILEPATH . "$filename.pdf";
-            echo exec("$cmd 2>&1"); //Is empty string if successfull
+            $o = exec("$cmd 2>&1"); 
+            if ($o) {
+                $this->logger->warning($o);
+            }
         }
         
         //Put the content down
         if(!file_exists(self::FILEPATH . "/$filename.pdf")) {
-            printf ("Failed to put em together. The files will remain in the " . self::FILEPATH . "tmp folder.");
+            $this->logger->warning("Failed to put em together. The files will remain in the " . self::FILEPATH . "tmp folder.");
         } else {
             //delete tmp folder
             foreach ($files as $file) {

@@ -6,6 +6,7 @@
 
 class curlConnector {
     private $curl;
+    private $logger;
     
     private $curlopts = array (
         //CURLOPT_TRANSFER => 1,
@@ -19,6 +20,7 @@ class curlConnector {
      * Constructor; initialises curl
      */
     public function __construct() {
+        $this->logger = new Logger();
         $this->curl = curl_init();
     }
     
@@ -32,6 +34,11 @@ class curlConnector {
         curl_setopt_array($this->curl, $this->curlopts);
         curl_setopt($this->curl, CURLOPT_URL, $url);
         $data = curl_exec($this->curl);
+        
+        if(!$data) {
+            $this->logger->error("Failed to connect to $url");
+        }
+        
         curl_close($this->curl);
         return $data;
     }

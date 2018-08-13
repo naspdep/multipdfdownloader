@@ -13,4 +13,5 @@
  */
 class Config {
     const PDFTK_FILEPATH = '"E:\Program Files (x86)\PDFtk Server\bin\"';
+    const DEBUG = TRUE;
 }

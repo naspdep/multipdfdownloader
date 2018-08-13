@@ -14,7 +14,7 @@ one file.
 So far, the base functionality of downloading PDF files from an HTML pages direct
 download links and merging them into one (using PDFtk Server) has been finished.
 The file will be saved in the pdf folder in the server. The file name will 
-either be an IBAN extracted from the links, or "please_name_this_file".
+either be an ISBN extracted from the links, or "please_name_this_file".
 
 
 While it was made for the above mentioned purpose, it could be used for any site 

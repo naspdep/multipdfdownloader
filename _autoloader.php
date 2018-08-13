@@ -4,6 +4,7 @@
  */
 
 require_once 'Config.php';
+require_once 'Logger.php';
 foreach (scandir('Exceptions') as $file) {
     if (preg_match('/\.php$/', $file)) {
         require_once "Exceptions/$file";

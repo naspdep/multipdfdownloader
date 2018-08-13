@@ -14,6 +14,11 @@
 class ProQuest implements SpecialTreatment{
     
     private $data;
+    private $logger;
+    
+    public function __construct() {
+        $this->logger = new Logger();
+    }
     
     public function getHTML($data) {
         $this->data = $data;
