@@ -1,7 +1,7 @@
 <?php
 /**
- * @author Jennifer Talks
- * @version 0.1.0
+ * @author Tiffy The Budgie
+ * @version 0.1.1
  * 
  * index file
  */
@@ -21,6 +21,7 @@ function getHTML ($data, SpecialTreatment $specialTreatment) {
 require_once '_autoloader.php';
 
 $logger = new Logger();
+$isbn;
 
 if (filter_input(INPUT_GET, 'url')) {
     $curlConnector = new curlConnector();
@@ -44,8 +45,17 @@ if (filter_input(INPUT_GET, 'url')) {
     
     $isbn = $pdfDownloader->downloadTmps($data, $match[0]);
     $pdfCreator->putEmTogether($isbn);
+} elseif (filter_input(INPUT_POST, 'download')) {
+    
 }
 
 require_once 'html/header.html';
 require_once 'html/form.html';
+if (isset($isbn)) {
+    if (file_exists("pdf/$isbn.pdf")) {
+        printf("<a href= 'pdf/%s.pdf'>Download PDF</a>", $isbn);
+    } elseif (file_exists("pdf/$isbn.zip")) {
+        printf("<a href= 'pdf/%s.zip'>Download ZIP</a>", $isbn);
+    }
+}
 require_once 'html/footer.html';

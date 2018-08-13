@@ -42,7 +42,13 @@ class PdfCreator {
         
         //Put the content down
         if(!file_exists(self::FILEPATH . "/$filename.pdf")) {
-            $this->logger->warning("Failed to put em together. The files will remain in the " . self::FILEPATH . "tmp folder.");
+            $this->logger->warning("Failed to put em together. The files will "
+                    . "remain in the ". self::FILEPATH . "tmp folder, and we "
+                    . "will attempt to create a zip archive.");
+            require_once 'Zipper.php';
+            $zipper = new Zipper();
+            $zipper->zipEm($filename);
+            
         } else {
             //delete tmp folder
             foreach ($files as $file) {
