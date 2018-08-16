@@ -13,6 +13,8 @@
  */
 class ProQuest implements SpecialTreatment{
     
+    const ROOT = 'https://ebookcentral.proquest.com/';
+    
     private $data;
     private $logger;
     
@@ -24,6 +26,8 @@ class ProQuest implements SpecialTreatment{
         $this->data = $data;
         $this->js();
         //:TODO: do some stuffs
+        
+        
         return $newData;
     }
     
@@ -40,7 +44,41 @@ class ProQuest implements SpecialTreatment{
         //:TODO: deal with all the js bs
         
         $javaScriptParser = new JavaScriptParser();
-        $javaScriptParser->parseData($this->data);
+        $javaScriptParser->parseData($this->data, self::ROOT);
         $javaScriptParser->includeJs();
+        
+        //include jQuery
+        
+        //get links with id tool_chapterdownload, they trigger a click and a keypress event
+        /*
+         * click:
+         * function(e) {
+  e.preventDefault();
+  var eType = e.type;
+  if (eType == 'click' || (eType == 'keypress' && (e.which == 13 || e.which == 32))) {
+    var tmpEle = $(this);
+    var ele = tmpEle.attr("id").split("_");
+    localDocID = ele[2];
+    chapterName = tmpEle.attr("data-chName");
+    localChapterID = ele[4];
+    pageNumber = ele[3];
+
+    generalChaptDownloadModal(e, localDocID, localChapterID, chapterName, pageNumber);
+  }
+}
+         keypress: function(e) {
+  e.preventDefault();
+  var eType = e.type;
+  if (eType == 'click' || (eType == 'keypress' && (e.which == 13 || e.which == 32))) {
+    var tmpEle = $(this);
+    var ele = tmpEle.attr("id").split("_");
+    localDocID = ele[2];
+    chapterName = tmpEle.attr("data-chName");
+    localChapterID = ele[4];
+    pageNumber = ele[3];
+
+    generalChaptDownloadModal(e, localDocID, localChapterID, chapterName, pageNumber);
+  }
+}*/
     }
 }

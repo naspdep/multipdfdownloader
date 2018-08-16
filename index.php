@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Tiffy The Budgie
+ * @author Alex
  * @version 0.1.1
  * 
  * index file

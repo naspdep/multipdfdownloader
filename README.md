@@ -1,11 +1,12 @@
 # multipdfdownloader
 
-____README_____
+____README____
 
 V 0.1.1
 
 
 ___English___
+
 This app was created mainly for students of the FH Dortmund, Germany.
 
 Our library has some books available as PDF ebooks. However, sometimes, you have
@@ -42,6 +43,7 @@ ____REQUIREMENTS (Server)____
 
 
 ___Deutsch___
+
 Diese App wurde hauptsächlich für Studenten der FH Dortmund erstellt. 
 
 Unsere Bücherei bietet einige PDF-Ebooks an, allerdings muss man teilweise jedes
@@ -70,6 +72,7 @@ die App für den vorgesehenen Zweck zu benutzen.
 
 
 ____ERFORDERT (Server-seitig)____
+
  1) PDFtk server (Geben Sie den Pfad zur pdftk.exe in der PDFTK_FILEPATH-Konstanten 
     in der Config.php-Datei ein):
     https://www.pdflabs.com/tools/pdftk-server/

@@ -25,23 +25,31 @@ class JavaScriptParser {
      * 
      * @param string $data HTML
      */
-    public function parseData($data) {
+    public function parseData($data, $root = '') {
         //parse for <script tags
         $matches = array();
-        preg_match_all('/<script.*>.*<\/script>/', $data, $matches);
+        preg_match_all("/<script.*>(\n[^<]*)*<\/script>/i", $data, $matches);
         
         $fh = fopen ('tmp/js.html','w');
         try {
             if ($fh) {
                 foreach ($matches[0] as $match) {
+                    $srcpos = strpos($match, 'src="');
+                    if ($srcpos === FALSE) {
+                        $srcpos = strpos($match, "src='");
+                    }
+                    if (($srcpos !== FALSE) && ($root) && (substr($match, $srcpos + 5, strlen($root) - 1) !== $root)) { //Regex has problems with slashes
+                        $match = str_replace('src="', 'src="' . $root, str_replace("src='", "src='$root", $match));
+                    }
                     fwrite($fh, $match . PHP_EOL);
                 }
-                fclose ($fh);
             } else {
                 throw new FailedToOpenFileException();
             }
         } catch (FailedToOpenFileException $e) {
             die($e->errorMessage());
+        } finally {
+            fclose ($fh);
         }
     }
     
